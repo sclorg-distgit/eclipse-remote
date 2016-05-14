@@ -2,36 +2,38 @@
 %{!?scl:%global pkg_name %{name}}
 %{?java_common_find_provides_and_requires}
 
-%global git_tag R2_0
+%global baserelease 1
+
+%global git_tag R2_0_1
 
 Name:           %{?scl_prefix}eclipse-remote
-Version:        2.0.0
-Release:        1.2.bs2%{?dist}
+Version:        2.0.1
+Release:        1.%{baserelease}%{?dist}
 Summary:        Eclipse Remote Services plug-in
 License:        EPL
 URL:            https://www.eclipse.org/ptp/
 
-Source0:        http://git.eclipse.org/c/ptp/org.eclipse.remote.git/snapshot/%{git_tag}.tar.xz
+Source0:        http://git.eclipse.org/c/ptp/org.eclipse.remote.git/snapshot/org.eclipse.remote-%{git_tag}.tar.xz
 
 BuildArch:      noarch
 
 BuildRequires:    %{?scl_prefix}tycho
 BuildRequires:    %{?scl_prefix}tycho-extras
 BuildRequires:    %{?scl_prefix_java_common}jsch
-BuildRequires:    %{?scl_prefix}eclipse-pde >= 1:4.3.2
+BuildRequires:    %{?scl_prefix}eclipse-pde
 BuildRequires:    %{?scl_prefix}eclipse-license
 BuildRequires:    %{?scl_prefix}eclipse-cdt
 BuildRequires:    %{?scl_prefix}eclipse-tm-terminal
 
 Requires:         %{?scl_prefix_java_common}jsch
-Requires:         %{?scl_prefix}eclipse-platform >= 1:4.3.2
+Requires:         %{?scl_prefix}eclipse-platform
 
 %description
 Remote Services provides an extensible remote services framework.
 
 %prep
 %{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
-%setup -q -n %{git_tag}
+%setup -q -n org.eclipse.remote-%{git_tag}
 
 find -name *.jar -exec rm -rf {} \;
 find -name *.class -exec rm -rf {} \;
@@ -61,11 +63,17 @@ find -name *.class -exec rm -rf {} \;
 %doc features/org.eclipse.remote-feature/epl-v10.html
 
 %changelog
-* Thu Jul 16 2015 Mat Booth <mat.booth@redhat.com> - 2.0.0-1.2
-- Fix unowned directories
-
-* Thu Jul 16 2015 Mat Booth <mat.booth@redhat.com> - 2.0.0-1.1
+* Thu Feb 04 2016 Mat Booth <mat.booth@redhat.com> - 2.0.1-1.1
 - Import latest from Fedora
+
+* Thu Feb 04 2016 Mat Booth <mat.booth@redhat.com> - 2.0.1-1
+- Update to upstream release 2.0.1
+
+* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
+* Mon Sep 14 2015 Roland Grunberg <rgrunber@redhat.com> - 2.0.0-2
+- Rebuild as an Eclipse p2 Droplet.
 
 * Wed Jun 24 2015 Alexander Kurtakov <akurtako@redhat.com> 2.0.0-1
 - Update to 2.0 final.
